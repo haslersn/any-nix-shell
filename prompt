@@ -1,0 +1,19 @@
+
+if set -q IN_NIX_SHELL
+  set_color 0E6
+  echo -n "nix-shell "
+  set_color normal
+end
+
+set -g FISH_NIX_SHELL_DIR (dirname (realpath (status -f)))
+
+function nix-shell
+  for arg in $argv
+    if [ $arg = "--pure" ]; or [ $arg = "--command" ]; or [ $arg = "--run" ]
+      command nix-shell $argv
+      return
+    end
+  end
+  set -x NIX_BUILD_SHELL $FISH_NIX_SHELL_DIR/nix-shell-wrapper
+  command nix-shell $argv
+end
