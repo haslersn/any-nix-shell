@@ -1,19 +1,41 @@
 
 if set -q IN_NIX_SHELL
   set_color 0E6
-  echo -n "nix-shell "
+  set output (echo $FISH_NIX_SHELL_PKGS | xargs)
+  if test -n "$name"; and test $name != "shell"
+    set output $output $name
+  end
+  if test -n "$output"
+    set output (echo $output $additional_pkgs | tr ' ' '\n' | sort -u | tr '\n' ' ' | xargs)
+    printf "$output "
+  else
+    printf "[unknown nix-shell] "
+  end
   set_color normal
 end
 
 set -g FISH_NIX_SHELL_DIR (dirname (realpath (status -f)))
 
 function nix-shell
+  set pkgs $FISH_NIX_SHELL_PKGS
   for arg in $argv
-    if [ $arg = "--pure" ]; or [ $arg = "--command" ]; or [ $arg = "--run" ]
-      command nix-shell $argv
-      return
+    if test (printf a"$arg" | cut -c 2) = "-"
+      set -e pkg
+      if test $arg = "--pure"; or test $arg = "--command"; or test $arg = "--run"
+        command nix-shell $argv
+        return
+      else if test $arg = "-p"; or test $arg = "--packages"
+        set pkg 1
+      end
+    else if set -q pkg
+      set pkgs $pkgs $arg
     end
   end
-  set -x NIX_BUILD_SHELL $FISH_NIX_SHELL_DIR/nix-shell-wrapper
-  command nix-shell $argv
+  if test -n "$name"; and test $name != "shell"
+    set pkgs $pkgs $name
+  end
+  env \
+    FISH_NIX_SHELL_PKGS="$pkgs" \
+    NIX_BUILD_SHELL=$FISH_NIX_SHELL_DIR/nix-shell-wrapper \
+    nix-shell $argv
 end
