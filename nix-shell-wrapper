@@ -1,2 +1,2 @@
-printf "\nfish" >> $2
+printf "\nenv SHELL=fish fish" >> $2
 bash $2
