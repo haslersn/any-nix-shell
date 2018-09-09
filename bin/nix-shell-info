@@ -1,15 +1,15 @@
-if set -q IN_NIX_SHELL
-    set_color 0E6
-    set output (echo $FISH_NIX_SHELL_PKGS | xargs)
-    if test -n "$name"
-        and test $name != "shell"
-        set output $output $name
-    end
-    if test -n "$output"
-        set output (echo $output $additional_pkgs | tr ' ' '\n' | sort -u | tr '\n' ' ' | xargs)
+#!/bin/sh
+if [[ $IN_NIX_SHELL != "" ]]; then
+    printf "\033[1;32m"
+    output=$(echo $FISH_NIX_SHELL_PKGS | xargs)
+    if [[ -n $name ]] && [[ $name != shell ]]; then
+        output+=" "$name
+    fi
+    if [[ -n $output ]]; then
+        output=$(echo $output $additional_pkgs | tr ' ' '\n' | sort -u | tr '\n' ' ' | xargs)
         printf "$output "
     else
         printf "[unknown nix-shell] "
-    end
-    set_color normal
-end
+    fi
+    printf "\033[0m"
+fi

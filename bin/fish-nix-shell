@@ -1,25 +1,22 @@
-function fns
-    set pkgs $FISH_NIX_SHELL_PKGS
-    for arg in $argv
-        if test (printf a"$arg" | cut -c 2) = "-"
-            set -e pkg
-            if test $arg = "--pure"
-                or test $arg = "--command"
-                or test $arg = "--run"
-                command nix-shell $argv
+#!/bin/sh
+fns () {
+    pkgs=$FISH_NIX_SHELL_PKGS
+    for arg in $@; do
+        if [[ $arg == -* ]]; then
+            pkg=
+            if [[ $arg == --pure ]] || [[ $arg == --command ]] || [[ $arg == --run ]]; then
+                command nix-shell $@
                 return
-            else if test $arg = "-p"
-                or test $arg = "--packages"
-                set pkg 1
-            end
-        else if set -q pkg
-            set pkgs $pkgs $arg
-        end
-    end
-    if test -n "$name"
-        and test $name != "shell"
-        set pkgs $pkgs $name
-    end
-    env FISH_NIX_SHELL_PKGS="$pkgs" nix-shell $argv --command fish
-end
-fns $argv
+            elif [[ $arg == -p ]] || [[ $arg == --packages ]]; then
+                pkg=1
+            fi
+        elif [[ $pkg == 1 ]]; then
+            pkgs+=" "$arg
+        fi
+    done
+    if [[ -n $name ]] && [[ $name != shell ]]; then
+        pkgs+=" "$name
+    fi
+    env FISH_NIX_SHELL_PKGS="$pkgs" nix-shell $@ --command fish
+}
+fns $@
