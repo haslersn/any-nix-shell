@@ -6,7 +6,7 @@ with import <nixpkgs> {}; stdenv.mkDerivation rec {
     mkdir -p $out
     cp LICENSE $out
     cp -r bin $out
-    wrapProgram $out/bin/any-nix-shell
+    wrapProgram $out/bin/any-nix-shell --prefix PATH ":" $out/bin
     wrapProgram $out/bin/any-nix-shell-wrapper
     wrapProgram $out/bin/nix-shell-info
   '';
