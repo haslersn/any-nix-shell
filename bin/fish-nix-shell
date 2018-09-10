@@ -28,7 +28,7 @@ EOF
 
 cat <<EOF
 # If you see this output, you probably forgot to pipe this output into 'source':
-# fish-nix-shell-init args | source
+# fish-nix-shell $@ | source
 EOF
 
 init_fish "$@"
