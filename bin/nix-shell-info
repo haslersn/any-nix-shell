@@ -1,21 +1,21 @@
 #!/bin/sh
 if [[ $IN_NIX_SHELL != "" ]]; then
     printf "\033[1;32m"
-    output=$(echo $FISH_NIX_SHELL_PKGS | xargs)
+    output=$(echo $ANY_NIX_SHELL_PKGS | xargs)
     if [[ -n $name ]] && [[ $name != shell ]]; then
         output+=" "$name
     fi
     if [[ -n $output ]]; then
         output=$(echo $output $additional_pkgs | tr ' ' '\n' | sort -u | tr '\n' ' ' | xargs)
-        printf "$output "
+        printf "$output"
     else
-        printf "[unknown nix-shell] "
+        printf "[unknown nix-shell]"
     fi
     printf "\033[0m"
-elif [[ $FISH_NIX_SHELL_EXIT_STATUS ]]; then
-    if [[ $FISH_NIX_SHELL_EXIT_STATUS == 0 ]]; then
-      printf "\033[1;36mexited nix-shell \033[0m"
+elif [[ $ANY_NIX_SHELL_EXIT_STATUS ]]; then
+    if [[ $ANY_NIX_SHELL_EXIT_STATUS == 0 ]]; then
+      printf "\033[1;36mexited nix-shell\033[0m"
     else
-      printf "\033[1;31mERROR \033[0m"
+      printf "\033[1;31mERROR\033[0m"
     fi
 fi

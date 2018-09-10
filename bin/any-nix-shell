@@ -1,0 +1,73 @@
+#!/bin/sh
+
+function init_fish () {
+                cat <<EOF
+
+# Overwrite the nix-shell command
+function nix-shell
+    any-nix-shell-wrapper fish \$argv
+    set -gx ANY_NIX_SHELL_EXIT_STATUS \$status
+end
+EOF
+    for arg in "$@"; do
+        case "$arg" in
+            --info-right)
+                cat <<EOF
+
+# Print additional information inside a nix-shell environment
+function fish_right_prompt
+    nix-shell-info
+    printf " "
+    set -e ANY_NIX_SHELL_EXIT_STATUS
+end
+EOF
+                ;;
+            *) error;;
+        esac
+    done
+}
+
+function init_zsh () {
+                cat <<EOF
+
+# Overwrite the nix-shell command
+function nix-shell () {
+    any-nix-shell-wrapper zsh \$@
+    export ANY_NIX_SHELL_EXIT_STATUS=\$status
+}
+EOF
+    for arg in "$@"; do
+        case "$arg" in
+            --info-right)
+                cat <<'EOF'
+
+# Print additional information inside a nix-shell environment
+precmd () {
+    with_codes=$(nix-shell-info)
+    without_codes=$(printf "$with_codes" | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+    num_codes=$((${#with_codes}-${#without_codes}))
+    RPROMPT=%{$(printf "%-"$num_codes"s" " ")%}$with_codes
+    unset ANY_NIX_SHELL_EXIT_STATUS
+}
+EOF
+                ;;
+            *) error;;
+        esac
+    done
+}
+
+cat <<EOF
+# If you see this output, you probably forgot to pipe this output into 'source':
+# any-nix-shell $@ | source
+EOF
+
+case "$1" in
+    fish) init_fish "${@:2}";;
+    zsh) init_zsh "${@:2}";;
+    *) error;;
+esac
+
+function error () {
+    echo ERROR: wrong usage
+    exit 1
+}

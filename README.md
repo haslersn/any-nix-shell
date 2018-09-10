@@ -1,23 +1,31 @@
-# fish-nix-shell
-fish support for the *nix-shell* environment of the Nix package manager.
+# any-nix-shell
+fish and zsh support for the *nix-shell* environment of the Nix package manager.
 
-## Installation
+## Installation in the user environment
 
-### Installation in the user environment
-
-Execute
+Execute:
 
 ```
-nix-env -if https://github.com/haslersn/fish-nix-shell/archive/master.tar.gz
+nix-env -if https://github.com/haslersn/any-nix-shell/archive/master.tar.gz
 ```
 
-and add the following to your *~/.config/fish/config.fish*. Create it if it doesn't exist.
+### fish: activation
+
+Add the following to your *~/.config/fish/config.fish*. Create it if it doesn't exist.
 
 ```
-fish-nix-shell --info-right | source
+any-nix-shell fish --info-right | source
 ```
 
-### System-wide installation
+### zsh: activation
+
+Add the following to your *~/.zshrc*. Create it if it doesn't exist.
+
+```
+any-nix-shell zsh --info-right | source /dev/stdin
+```
+
+## System-wide installation
 
 Add the package to your */etc/nixos/configuration.nix*:
 
@@ -26,25 +34,37 @@ Add the package to your */etc/nixos/configuration.nix*:
     #
     # Other packages here ...
     #
-    (import (fetchGit "https://github.com/haslersn/fish-nix-shell"))
+    (import (fetchGit "https://github.com/haslersn/any-nix-shell"))
   ];
 ```
 
 and then execute: `sudo nixos-rebuild switch`
 
-If you want to configure it system-wide, also add:
+The activation can either be done system-wide or in the user environment.
+For activation in the user environment, see above.
+
+### fish: system-wide activation
 
 ```
   programs.fish.enable = true;
   programs.fish.promptInit = ''
-    fish-nix-shell --info-right | source
+    any-nix-shell fish --info-right | source
+  '';
+```
+
+### zsh: system-wide activation
+
+```
+  programs.zsh.enable = true;
+  programs.zsh.promptInit = ''
+    any-nix-shell zsh --info-right | source /dev/stdin
   '';
 ```
 
 ## Flags
 
-The `fish-nix-shell` command **optionally** takes the following flags:
+The `any-nix-shell` command **optionally** takes any of the following flags:
 
 | Flag | Meaning |
 | - | - |
-| `--info-right` | While in a *fish-nix-shell*, display information about the loaded packages at the right.
+| `--info-right` | While in a *nix-shell*, display information about the loaded packages at the right. |

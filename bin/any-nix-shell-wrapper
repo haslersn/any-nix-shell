@@ -1,6 +1,9 @@
 #!/bin/sh
 fns () {
-    pkgs=$FISH_NIX_SHELL_PKGS
+    pkg=
+    pkgs=$ANY_NIX_SHELL_PKGS
+    which_shell="$1"
+    shift
     for arg in "$@"; do
         if [[ $arg == -* ]]; then
             pkg=
@@ -17,6 +20,6 @@ fns () {
     if [[ -n $name ]] && [[ $name != shell ]]; then
         pkgs+=" "$name
     fi
-    env FISH_NIX_SHELL_PKGS="$pkgs" nix-shell "$@" --command fish
+    env ANY_NIX_SHELL_PKGS="$pkgs" nix-shell "$@" --command "$which_shell"
 }
 fns "$@"
