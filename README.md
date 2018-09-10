@@ -39,11 +39,13 @@ The described functionality can be enabled by editing to your *~/.config/fish/co
 # Overwrite the nix-shell command
 function nix-shell
   fish-nix-shell $argv
+  set -gx FISH_NIX_SHELL_EXIT_STATUS $status
 end
 
 # Print additional information inside a nix-shell environment
 function fish_right_prompt
   nix-shell-info
+  set -e FISH_NIX_SHELL_EXIT_STATUS
 end
 ```
 
@@ -55,11 +57,13 @@ or system-wide by editing your */etc/nixos/configuration.nix* like so:
     # Overwrite the nix-shell command
     function nix-shell
       fish-nix-shell $argv
+      set -gx FISH_NIX_SHELL_EXIT_STATUS $status
     end
 
     # Print additional information inside a nix-shell environment
     function fish_right_prompt
       nix-shell-info
+      set -e FISH_NIX_SHELL_EXIT_STATUS
     end
   '';
 ```

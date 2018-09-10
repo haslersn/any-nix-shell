@@ -12,4 +12,6 @@ if [[ $IN_NIX_SHELL != "" ]]; then
         printf "[unknown nix-shell] "
     fi
     printf "\033[0m"
+elif [[ $FISH_NIX_SHELL_EXIT_STATUS ]]; then
+    printf "\033[1;36mexited nix-shell \033[0m"
 fi
