@@ -5,10 +5,16 @@ fish support for the *nix-shell* environment of the Nix package manager.
 
 ### Installation in the user environment
 
-Execute:
+Execute
 
 ```
 nix-env -if https://github.com/haslersn/fish-nix-shell/archive/master.tar.gz
+```
+
+and add the following to your *~/.config/fish/config.fish*. Create it if it doesn't exist.
+
+```
+fish-nix-shell --info-right | source
 ```
 
 ### System-wide installation
@@ -26,44 +32,19 @@ Add the package to your */etc/nixos/configuration.nix*:
 
 and then execute: `sudo nixos-rebuild switch`
 
-## Features
-
-By default, this package provides the `fish-nix-shell` command which starts a *nix-shell* using *fish*.
-In the following, we present
-  - how to use it just via `nix-shell` and
-  - how to print additional information while inside a *nix-shell* environment.
-
-The described functionality can be enabled by editing to your *~/.config/fish/config.fish* (create it if it doesn't exist) like so
-
-```
-# Overwrite the nix-shell command
-function nix-shell
-  fish-nix-shell $argv
-  set -gx FISH_NIX_SHELL_EXIT_STATUS $status
-end
-
-# Print additional information inside a nix-shell environment
-function fish_right_prompt
-  nix-shell-info
-  set -e FISH_NIX_SHELL_EXIT_STATUS
-end
-```
-
-or system-wide by editing your */etc/nixos/configuration.nix* like so:
+If you want to configure it system-wide, also add:
 
 ```
   programs.fish.enable = true;
   programs.fish.promptInit = ''
-    # Overwrite the nix-shell command
-    function nix-shell
-      fish-nix-shell $argv
-      set -gx FISH_NIX_SHELL_EXIT_STATUS $status
-    end
-
-    # Print additional information inside a nix-shell environment
-    function fish_right_prompt
-      nix-shell-info
-      set -e FISH_NIX_SHELL_EXIT_STATUS
-    end
+    fish-nix-shell --info-right | source
   '';
 ```
+
+## Flags
+
+The `fish-nix-shell` command **optionally** takes the following flags:
+
+| Flag | Meaning |
+| - | - |
+| `--info-right` | While in a *fish-nix-shell*, display information about the loaded packages at the right.

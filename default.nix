@@ -6,8 +6,9 @@ with import <nixpkgs> {}; stdenv.mkDerivation rec {
     mkdir -p $out
     cp LICENSE $out
     cp -r bin $out
+    wrapProgram $out/bin/fish-nix-shell
+    wrapProgram $out/bin/fish-nix-shell-wrapper --prefix PATH ":" ${fish}/bin
     wrapProgram $out/bin/nix-shell-info
-    wrapProgram $out/bin/fish-nix-shell --prefix PATH ":" ${fish}/bin
   '';
   meta.description = "fish support for the nix-shell environment of the Nix package manager.";
   meta.license = "MIT";

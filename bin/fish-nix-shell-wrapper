@@ -1,0 +1,22 @@
+#!/bin/sh
+fns () {
+    pkgs=$FISH_NIX_SHELL_PKGS
+    for arg in "$@"; do
+        if [[ $arg == -* ]]; then
+            pkg=
+            if [[ $arg == --pure ]] || [[ $arg == --command ]] || [[ $arg == --run ]]; then
+                command nix-shell $@
+                return
+            elif [[ $arg == -p ]] || [[ $arg == --packages ]]; then
+                pkg=1
+            fi
+        elif [[ $pkg == 1 ]]; then
+            pkgs+=" "$arg
+        fi
+    done
+    if [[ -n $name ]] && [[ $name != shell ]]; then
+        pkgs+=" "$name
+    fi
+    env FISH_NIX_SHELL_PKGS="$pkgs" nix-shell "$@" --command fish
+}
+fns "$@"
