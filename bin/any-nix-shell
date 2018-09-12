@@ -2,6 +2,8 @@
 
 function init_fish () {
                 output+=$(cat <<EOF
+# If you see this output, you probably forgot to pipe it into 'source':
+# any-nix-shell $@ | source
 
 # Overwrite the nix-shell command
 function nix-shell
@@ -31,6 +33,8 @@ EOF
 
 function init_zsh () {
                 output+=$(cat <<EOF
+# If you see this output, you probably forgot to pipe it into 'source':
+# any-nix-shell $@ | source /dev/stdin
 
 # Overwrite the nix-shell command
 function nix-shell () {
@@ -68,11 +72,6 @@ function error () {
 }
 
 # main program begin
-
-cat <<EOF
-# If you see this output, you probably forgot to pipe it into 'source':
-# any-nix-shell $@ | source
-EOF
 
 output=
 
