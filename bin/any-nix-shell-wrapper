@@ -8,7 +8,7 @@ fns () {
         if [[ $arg == -* ]]; then
             pkg=
             if [[ $arg == --pure ]] || [[ $arg == --command ]] || [[ $arg == --run ]]; then
-                command nix-shell $@
+                command nix-shell "$@"
                 return
             elif [[ $arg == -p ]] || [[ $arg == --packages ]]; then
                 pkg=1
