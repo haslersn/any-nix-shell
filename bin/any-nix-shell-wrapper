@@ -20,6 +20,7 @@ fns () {
     if [[ -n $name ]] && [[ $name != shell ]]; then
         pkgs+=" "$name
     fi
-    env ANY_NIX_SHELL_PKGS="$pkgs" nix-shell "$@" --command "$which_shell"
+    env ANY_NIX_SHELL_PKGS="$pkgs" nix-shell "$@" \
+        --command "export SHELL=\"$(which $which_shell)\"; $which_shell"
 }
 fns "$@"
