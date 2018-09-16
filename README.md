@@ -1,15 +1,24 @@
 # any-nix-shell
-fish and zsh support for the *nix run* and *nix-shell* environments of the Nix package manager.
+`fish` and `zsh` support for the `nix run` and `nix-shell` environments of the Nix package manager.
 
-## Installation in the user environment
+Features:
 
-Execute:
+  * When entering a `nix run` or `nix-shell` environment, the shell stays the same.
+  * Inside those environments, your prompt prints the loaded packages to the right.
+  * Alternatively, print that information by executing: `nix-shell-info`
+  * `nix-shell --command` or the like still execute inside `bash`, such that scripts don't break.
+
+# Installation in the user environment
+
+Execute
 
 ```
 nix-env -i any-nix-shell -f https://github.com/haslersn/nixpkgs/archive/any-nix-shell-1.1.0.tar.gz
 ```
 
-### fish: activation
+and activate the plugin for any number of the following shells:
+
+## `fish`
 
 Add the following to your *~/.config/fish/config.fish*. Create it if it doesn't exist.
 
@@ -17,7 +26,7 @@ Add the following to your *~/.config/fish/config.fish*. Create it if it doesn't 
 any-nix-shell fish --info-right | source
 ```
 
-### zsh: activation
+## `zsh`
 
 Add the following to your *~/.zshrc*. Create it if it doesn't exist.
 
@@ -25,9 +34,9 @@ Add the following to your *~/.zshrc*. Create it if it doesn't exist.
 any-nix-shell zsh --info-right | source /dev/stdin
 ```
 
-## System-wide installation
+# System-wide installation on NixOS
 
-Add the package to your */etc/nixos/configuration.nix*:
+As usual on NixOS, a package can be installed system-wide by adding it to */etc/nixos/configuration.nix*:
 
 ```
   environment.systemPackages = with pkgs; [
@@ -40,12 +49,11 @@ Add the package to your */etc/nixos/configuration.nix*:
   ];
 ```
 
-and then execute: `sudo nixos-rebuild switch`
+Then execute: `sudo nixos-rebuild switch`
 
-The activation can either be done system-wide or in the user environment.
-For activation in the user environment, see above.
+The plugin's activation can be done system-wide, but doesn't have to. The system-wide activation is also done in */etc/nixos/configuration.nix*:
 
-### fish: system-wide activation
+## `fish`
 
 ```
   programs.fish.enable = true;
@@ -54,7 +62,7 @@ For activation in the user environment, see above.
   '';
 ```
 
-### zsh: system-wide activation
+## `zsh`
 
 ```
   programs.zsh.enable = true;
@@ -63,10 +71,10 @@ For activation in the user environment, see above.
   '';
 ```
 
-## Flags
+# Customization
 
-The `any-nix-shell` command **optionally** takes any of the following flags:
+The `any-nix-shell` command (which is used for activating the plugin in a specific shell) **optionally** takes any of the following flags:
 
-| Flag | Meaning |
+| Flag | Description |
 | - | - |
-| `--info-right` | While in a *nix-shell*, display information about the loaded packages at the right. |
+| `--info-right` | While in a `nix run` or `nix-shell` environment, display information about the loaded packages at the right. |
