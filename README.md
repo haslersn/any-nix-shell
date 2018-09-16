@@ -6,7 +6,7 @@ fish and zsh support for the *nix run* and *nix-shell* environments of the Nix p
 Execute:
 
 ```
-nix-env -i any-nix-shell -f https://github.com/haslersn/nixpkgs/archive/any-nix-shell-1.0.0.tar.gz
+nix-env -i any-nix-shell -f https://github.com/haslersn/nixpkgs/archive/any-nix-shell-1.1.0.tar.gz
 ```
 
 ### fish: activation
@@ -35,7 +35,7 @@ Add the package to your */etc/nixos/configuration.nix*:
     # Other packages here ...
     #
     (let
-      url = "https://github.com/haslersn/nixpkgs/archive/any-nix-shell-1.0.0.tar.gz";
+      url = "https://github.com/haslersn/nixpkgs/archive/any-nix-shell-1.1.0.tar.gz";
     in (import (fetchTarball url) {}).any-nix-shell)
   ];
 ```
