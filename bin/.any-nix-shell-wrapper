@@ -4,12 +4,22 @@ fns () {
     pkgs=$ANY_NIX_SHELL_PKGS
     which_shell="$1"
     shift
+    pos=0
     for arg in "$@"; do
-        if [[ $arg == -* ]]; then
+        if [[ $pos != 0 ]]; then
+            pos=$((pos-1))
+        elif [[ $arg == -* ]]; then
             pkg=
             if [[ $arg == --pure ]] || [[ $arg == --command ]] || [[ $arg == --run ]]; then
                 command nix-shell "$@"
                 return
+            elif [[ $arg == --arg ]] || [[ $arg == --argstr ]] || [[ $arg == --option ]]; then
+                pos=2
+            elif [[ $arg == -j ]] || [[ $arg == --max-jobs ]] || [[ $arg == --cores ]] \
+              || [[ $arg == --max-silent-time ]] || [[ $arg == --timeout ]] \
+              || [[ $arg == -A ]] || [[ $arg == --attr ]] \
+              || [[ $arg == -i ]] || [[ $arg == --exclude ]]; then
+                pos=1
             elif [[ $arg == -p ]] || [[ $arg == --packages ]]; then
                 pkg=1
             fi
