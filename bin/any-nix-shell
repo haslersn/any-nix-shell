@@ -10,6 +10,17 @@ function nix-shell
     $(which .any-nix-shell-wrapper) fish \$argv
     set -gx ANY_NIX_SHELL_EXIT_STATUS \$status
 end
+
+# Overwrite the nix command
+function nix
+    if test \$argv[1] = run
+        set argv[1] fish
+        $(which .any-nix-run-wrapper) \$argv
+        set -gx ANY_NIX_SHELL_EXIT_STATUS \$status
+    else
+        command nix \$argv
+    end
+end
 EOF
                 )
     for arg in "$@"; do
@@ -40,6 +51,17 @@ function init_zsh () {
 function nix-shell () {
     $(which .any-nix-shell-wrapper) zsh "\$@"
     export ANY_NIX_SHELL_EXIT_STATUS=\$status
+}
+
+# Overwrite the nix command
+function nix () {
+    if [[ \$1 == run ]]; then
+        shift
+        $(which .any-nix-run-wrapper) zsh "\$@"
+        export ANY_NIX_SHELL_EXIT_STATUS=\$status
+    else
+        command nix "\$@"
+    fi
 }
 EOF
                 )

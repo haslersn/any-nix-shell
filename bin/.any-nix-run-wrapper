@@ -1,0 +1,31 @@
+#!/bin/sh
+fns () {
+    pkg=
+    pkgs=$ANY_NIX_SHELL_PKGS
+    which_shell="$1"
+    shift
+    pos=0
+    for arg in "$@"; do
+        if [[ $pos != 0 ]]; then
+            pos=$((pos-1))
+        elif [[ $arg == -* ]]; then
+            if [[ $arg == -c ]] || [[ $arg == --command ]]; then
+                command nix run "$@"
+                return
+            elif [[ $arg == --arg ]] || [[ $arg == --argstr ]]; then
+                pos=2
+            elif [[ $arg == -f ]] || [[ $arg == --file ]] \
+              || [[ $arg == -I ]] || [[ $arg == --include ]] \
+              || [[ $arg == --keep ]] || [[ $arg == --unset ]]; then
+                pos=1
+            fi
+        else
+            pkgs+=" "$arg
+        fi
+    done
+    if [[ -n $name ]] && [[ $name != shell ]]; then
+        pkgs+=" "$name
+    fi
+    env ANY_NIX_SHELL_PKGS="$pkgs" IN_NIX_RUN=1 nix run "$@" --command $which_shell
+}
+fns "$@"

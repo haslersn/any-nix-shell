@@ -1,5 +1,5 @@
 #!/bin/sh
-if [[ $IN_NIX_SHELL != "" ]]; then
+if [[ $IN_NIX_SHELL != "" ]] || [[ $IN_NIX_RUN != "" ]]; then
     printf "\033[1;32m"
     output=$(echo $ANY_NIX_SHELL_PKGS | xargs)
     if [[ -n $name ]] && [[ $name != shell ]]; then
