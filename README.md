@@ -1,5 +1,5 @@
 # any-nix-shell
-fish and zsh support for the *nix-shell* environment of the Nix package manager.
+fish and zsh support for the *nix run* and *nix-shell* environments of the Nix package manager.
 
 ## Installation in the user environment
 
