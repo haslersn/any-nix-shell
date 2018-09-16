@@ -38,7 +38,7 @@ function init_zsh () {
 
 # Overwrite the nix-shell command
 function nix-shell () {
-    $(which .any-nix-shell-wrapper) zsh \$@
+    $(which .any-nix-shell-wrapper) zsh "\$@"
     export ANY_NIX_SHELL_EXIT_STATUS=\$status
 }
 EOF
