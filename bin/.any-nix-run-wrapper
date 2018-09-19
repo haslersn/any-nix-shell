@@ -16,7 +16,8 @@ fns () {
                 pos=2
             elif [[ $arg == -f ]] || [[ $arg == --file ]] \
               || [[ $arg == -I ]] || [[ $arg == --include ]] \
-              || [[ $arg == --keep ]] || [[ $arg == --unset ]]; then
+              || [[ $arg == -k ]] || [[ $arg == --keep ]] \
+              || [[ $arg == -u ]] || [[ $arg == --unset ]]; then
                 pos=1
             fi
         else
