@@ -13,7 +13,7 @@ Features:
 Execute
 
 ```
-nix-env -i any-nix-shell -f https://github.com/haslersn/nixpkgs/archive/any-nix-shell-1.1.0.tar.gz
+nix-env -i any-nix-shell -f https://github.com/NixOS/nixpkgs/archive/master.tar.gz
 ```
 
 and activate the plugin for any number of the following shells:
@@ -44,7 +44,7 @@ As usual on NixOS, a package can be installed system-wide by adding it to */etc/
     # Other packages here ...
     #
     (let
-      url = "https://github.com/haslersn/nixpkgs/archive/any-nix-shell-1.1.0.tar.gz";
+      url = "https://github.com/NixOS/nixpkgs/archive/master.tar.gz";
     in (import (fetchTarball url) {}).any-nix-shell)
   ];
 ```
