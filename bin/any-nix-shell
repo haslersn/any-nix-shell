@@ -8,7 +8,6 @@ function init_fish () {
 # Overwrite the nix-shell command
 function nix-shell
     $(which .any-nix-shell-wrapper) fish \$argv
-    set -gx ANY_NIX_SHELL_EXIT_STATUS \$status
 end
 
 # Overwrite the nix command
@@ -16,7 +15,6 @@ function nix
     if test \$argv[1] = run
         set argv[1] fish
         $(which .any-nix-run-wrapper) \$argv
-        set -gx ANY_NIX_SHELL_EXIT_STATUS \$status
     else
         command nix \$argv
     end
@@ -33,7 +31,6 @@ EOF
 function fish_right_prompt
     $(which nix-shell-info)
     printf " "
-    set -e ANY_NIX_SHELL_EXIT_STATUS
 end
 EOF
                 );;
@@ -50,7 +47,6 @@ function init_zsh () {
 # Overwrite the nix-shell command
 function nix-shell () {
     $(which .any-nix-shell-wrapper) zsh "\$@"
-    export ANY_NIX_SHELL_EXIT_STATUS=\$status
 }
 
 # Overwrite the nix command
@@ -58,7 +54,6 @@ function nix () {
     if [[ \$1 == run ]]; then
         shift
         $(which .any-nix-run-wrapper) zsh "\$@"
-        export ANY_NIX_SHELL_EXIT_STATUS=\$status
     else
         command nix "\$@"
     fi
@@ -76,7 +71,6 @@ precmd () {
     with_codes=\$($(which nix-shell-info))
     without_codes=\$(printf "\$with_codes" | sed -r "s/\\\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
     RPROMPT=%\${#without_codes}{\$with_codes%}
-    unset ANY_NIX_SHELL_EXIT_STATUS
 }
 
 EOF

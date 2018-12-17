@@ -12,10 +12,4 @@ if [[ $IN_NIX_SHELL != "" ]] || [[ $IN_NIX_RUN != "" ]]; then
         printf "[unknown environment]"
     fi
     printf "\033[0m"
-elif [[ $ANY_NIX_SHELL_EXIT_STATUS ]]; then
-    if [[ $ANY_NIX_SHELL_EXIT_STATUS == 0 ]]; then
-      printf "\033[1;36mexited environment\033[0m"
-    else
-      printf "\033[1;31mERROR\033[0m"
-    fi
 fi
