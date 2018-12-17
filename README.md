@@ -8,19 +8,27 @@ Features:
   * Alternatively, print that information by executing: `nix-shell-info`
   * `nix-shell --command` or the like still execute inside `bash`, such that scripts don't break.
 
-# Installation in the user environment
-
-Execute
+# Installation
+any-nix-shell can currently be installed from the official `nixos-unstable` channel
+([Link 1](https://www.reddit.com/r/NixOS/comments/7p83y4/install_a_package_from_unstable_while_running/), [Link 2](https://stackoverflow.com/questions/41230430/how-do-i-upgrade-my-system-to-nixos-unstable)).
+If you don't know how to do that, you can alternatively execute
 
 ```
 nix-env -i any-nix-shell -f https://github.com/NixOS/nixpkgs/archive/master.tar.gz
 ```
 
-and activate the plugin for any number of the following shells:
+which installs `any-nix-shell` into your user environment.
+
+# Enabling
+
+In the following we describe how to enable the `any-nix-shell` plugin
+for your user.
+This differs slightly between `fish` and `zsh`.
 
 ## `fish`
 
-Add the following to your *~/.config/fish/config.fish*. Create it if it doesn't exist.
+Add the following to your *~/.config/fish/config.fish*.
+Create it if it doesn't exist.
 
 ```
 any-nix-shell fish --info-right | source
@@ -28,30 +36,17 @@ any-nix-shell fish --info-right | source
 
 ## `zsh`
 
-Add the following to your *~/.zshrc*. Create it if it doesn't exist.
+Add the following to your *~/.zshrc*.
+Create it if it doesn't exist.
 
 ```
 any-nix-shell zsh --info-right | source /dev/stdin
 ```
 
-# System-wide installation on NixOS
-
-As usual on NixOS, a package can be installed system-wide by adding it to */etc/nixos/configuration.nix*:
-
-```
-  environment.systemPackages = with pkgs; [
-    #
-    # Other packages here ...
-    #
-    (let
-      url = "https://github.com/NixOS/nixpkgs/archive/master.tar.gz";
-    in (import (fetchTarball url) {}).any-nix-shell)
-  ];
-```
-
-Then execute: `sudo nixos-rebuild switch`
-
-The plugin's activation can be done system-wide, but doesn't have to. The system-wide activation is also done in */etc/nixos/configuration.nix*:
+# System-wide enabling on NixOS
+Alternatively the `any-nix-shell` plugin can be enabled system-wide.
+This enables it for every user.
+To do so, add the following to your configuration (*/etc/nixos/configuration.nix*).
 
 ## `fish`
 
@@ -73,7 +68,7 @@ The plugin's activation can be done system-wide, but doesn't have to. The system
 
 # Customization
 
-The `any-nix-shell` command (which is used for activating the plugin in a specific shell) **optionally** takes any of the following flags:
+The `any-nix-shell` command (which is used for enabling the plugin in a specific shell) **optionally** takes any of the following flags:
 
 | Flag | Description |
 | - | - |
