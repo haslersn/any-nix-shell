@@ -66,6 +66,15 @@ To do so, add the following to your configuration (*/etc/nixos/configuration.nix
   '';
 ```
 
+## `zsh with home-manager`
+
+```
+  programs.zsh.enable = true;
+  programs.zsh.initExtra = ''
+    any-nix-shell zsh --info-right | source /dev/stdin
+  '';
+```
+
 # Customization
 
 The `any-nix-shell` command (which is used for enabling the plugin in a specific shell) **optionally** takes any of the following flags:
