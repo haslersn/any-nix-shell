@@ -66,7 +66,7 @@ To do so, add the following to your configuration (*/etc/nixos/configuration.nix
   '';
 ```
 
-## `zsh with home-manager`
+## `zsh` with home-manager
 
 ```
   programs.zsh.enable = true;
