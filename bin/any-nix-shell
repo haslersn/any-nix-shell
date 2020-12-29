@@ -14,7 +14,7 @@ end
 function nix
     if test \$argv[1] = shell
         set argv[1] fish
-        $(which .any-nix-run-wrapper) \$argv
+        $(which .any-nix-wrapper) \$argv
     else
         command nix \$argv
     end
@@ -53,7 +53,7 @@ function nix-shell () {
 function nix () {
     if [[ \$1 == shell ]]; then
         shift
-        $(which .any-nix-run-wrapper) zsh "\$@"
+        $(which .any-nix-wrapper) zsh "\$@"
     else
         command nix "\$@"
     fi
