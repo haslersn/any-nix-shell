@@ -10,7 +10,7 @@ fns () {
             pos=$((pos-1))
         elif [[ $arg == -* ]]; then
             if [[ $arg == -c ]] || [[ $arg == --command ]]; then
-                command nix run "$@"
+                command nix shell "$@"
                 return
             elif [[ $arg == --arg ]] || [[ $arg == --argstr ]]; then
                 pos=2
@@ -27,6 +27,6 @@ fns () {
     if [[ -n $name ]] && [[ $name != shell ]]; then
         pkgs+=" "$name
     fi
-    env ANY_NIX_SHELL_PKGS="$pkgs" IN_NIX_RUN=1 nix run "$@" --command $which_shell
+    env ANY_NIX_SHELL_PKGS="$pkgs" IN_NIX_RUN=1 nix shell "$@" --command $which_shell
 }
 fns "$@"
