@@ -12,9 +12,8 @@ end
 
 # Overwrite the nix command
 function nix
-    if test \$argv[1] = shell
-        set argv[1] fish
-        $(which .any-nix-wrapper) \$argv
+    if test \$argv[1] = run
+        $(which .any-nix-wrapper) fish \$argv
     else
         command nix \$argv
     end
@@ -51,8 +50,7 @@ function nix-shell () {
 
 # Overwrite the nix command
 function nix () {
-    if [[ \$1 == shell ]]; then
-        shift
+    if [[ "\$1" == "run" ]]; then
         $(which .any-nix-wrapper) zsh "\$@"
     else
         command nix "\$@"
