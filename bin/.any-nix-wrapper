@@ -6,31 +6,51 @@ fns () {
     shift
     subcommand="$1"
     shift
-    pos=0
 
     # `nix run` only launched a shell from Nix 2.0.* to 2.3.*
-    if nix --version | grep -vq ' 2\.[0-3][^0-9]'; then
+    if [[ "$subcommand" == run ]] \
+      && nix --version | grep -vq ' 2\.[0-3][^0-9]'; then
         exec nix "$subcommand" "$@"
     fi
 
+    # `pos` determines arguments to skip. If `pos` is 1, the next argument will
+    # be ignored. If `pos` is 2, the next 2 arguments will be ignored, etc.
+    pos=0
     for arg in "$@"; do
         if [[ $pos != 0 ]]; then
             pos=$((pos-1))
         elif [[ $arg == -* ]]; then
             if [[ $arg == -c ]] || [[ $arg == --command ]]; then
+                # If we have a --command argument, we're not launching a custom
+                # shell, so we can run `nix` directly.
                 exec nix "$subcommand" "$@"
-            elif [[ $arg == --arg ]] || [[ $arg == --argstr ]]; then
+            elif [[ $arg == --arg ]] \
+              || [[ $arg == --argstr ]] \
+              || [[ $arg == --redirect ]] \
+              || [[ $arg == --override-flake ]] \
+              || [[ $arg == --override-input ]]; then
+                # These flags take 2 arguments.
                 pos=2
             elif [[ $arg == -f ]] || [[ $arg == --file ]] \
               || [[ $arg == -I ]] || [[ $arg == --include ]] \
               || [[ $arg == -k ]] || [[ $arg == --keep ]] \
-              || [[ $arg == -u ]] || [[ $arg == --unset ]]; then
+              || [[ $arg == -u ]] || [[ $arg == --unset ]] \
+              || [[ $arg == --phase ]] \
+              || [[ $arg == --profile ]] \
+              || [[ $arg == --eval-store ]] \
+              || [[ $arg == --inputs-from ]] \
+              || [[ $arg == --update-input ]] \
+              || [[ $arg == --expr ]]; then
                 pos=1
             fi
         else
             pkgs+=" "$arg
         fi
     done
+
+    # I'm not sure what, if anything, hits this branch. It appears to be using
+    # the environment variable `$name` here? `$name` doesn't appear to be
+    # mentioned anywhere else in the repo.
     if [[ -n $name ]] && [[ $name != shell ]]; then
         pkgs+=" "$name
     fi
