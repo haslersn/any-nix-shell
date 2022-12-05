@@ -1,6 +1,6 @@
 # any-nix-shell
 
-`xonsh`, `fish`, and `zsh` support for the `nix run` and `nix-shell`
+`fish`, `xonsh`, and `zsh` support for the `nix run` and `nix-shell`
 environments of the Nix package manager.
 
 Features:
@@ -16,8 +16,8 @@ any-nix-shell can currently be installed from the official `nixos-unstable` chan
 ([Link 1](https://www.reddit.com/r/NixOS/comments/7p83y4/install_a_package_from_unstable_while_running/), [Link 2](https://stackoverflow.com/questions/41230430/how-do-i-upgrade-my-system-to-nixos-unstable)).
 If you don't know how to do that, you can alternatively execute
 
-```shell
-nix-env -i any-nix-shell -f https://github.com/NixOS/nixpkgs/archive/master.tar.gz
+```console
+$ nix-env -i any-nix-shell -f https://github.com/NixOS/nixpkgs/archive/master.tar.gz
 ```
 
 which installs `any-nix-shell` into your user environment.
@@ -26,7 +26,16 @@ which installs `any-nix-shell` into your user environment.
 
 In the following we describe how to enable the `any-nix-shell` plugin
 for your user.
-This differs slightly among `xonsh`, `fish`, and `zsh`.
+This differs slightly among `fish`, `xonsh`, and `zsh`.
+
+### `fish`
+
+Add the following to your *~/.config/fish/config.fish*.
+Create it if it doesn't exist.
+
+```fish
+any-nix-shell fish --info-right | source
+```
 
 ### `xonsh`
 
@@ -36,15 +45,6 @@ Add the following to your `xonsh`
 
 ```xonsh
 execx($(any-nix-shell --info-right))
-```
-
-### `fish`
-
-Add the following to your *~/.config/fish/config.fish*.
-Create it if it doesn't exist.
-
-```fish
-any-nix-shell fish --info-right | source
 ```
 
 ### `zsh`
@@ -62,40 +62,48 @@ Alternatively the `any-nix-shell` plugin can be enabled system-wide.
 This enables it for every user.
 To do so, add the following to your configuration (*/etc/nixos/configuration.nix*).
 
-### `xonsh`
-
-```nix
-  programs.xonsh.enable = true;
-  programs.xonsh.config = ''
-    execx($(any-nix-shell --info-right))
-  '';
-```
-
 ### `fish`
 
 ```nix
+{
   programs.fish.enable = true;
   programs.fish.promptInit = ''
     any-nix-shell fish --info-right | source
   '';
+}
+```
+
+### `xonsh`
+
+```nix
+{
+  programs.xonsh.enable = true;
+  programs.xonsh.config = ''
+    execx($(any-nix-shell --info-right))
+  '';
+}
 ```
 
 ### `zsh`
 
 ```nix
+{
   programs.zsh.enable = true;
   programs.zsh.promptInit = ''
     any-nix-shell zsh --info-right | source /dev/stdin
   '';
+}
 ```
 
 ### `zsh` with home-manager
 
 ```nix
+{
   programs.zsh.enable = true;
   programs.zsh.initExtra = ''
     any-nix-shell zsh --info-right | source /dev/stdin
   '';
+}
 ```
 
 ## Customization
