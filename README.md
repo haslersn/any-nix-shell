@@ -1,6 +1,7 @@
 # any-nix-shell
 
-`fish` and `zsh` support for the `nix run` and `nix-shell` environments of the Nix package manager.
+`xonsh`, `fish`, and `zsh` support for the `nix run` and `nix-shell`
+environments of the Nix package manager.
 
 Features:
 
@@ -25,7 +26,17 @@ which installs `any-nix-shell` into your user environment.
 
 In the following we describe how to enable the `any-nix-shell` plugin
 for your user.
-This differs slightly between `fish` and `zsh`.
+This differs slightly among `xonsh`, `fish`, and `zsh`.
+
+### `xonsh`
+
+Add the following to your `xonsh`
+[configuration file](https://xon.sh/xonshrc.html).
+(Create it if it doesn't exist.)
+
+```xonsh
+execx($(any-nix-shell --info-right))
+```
 
 ### `fish`
 
@@ -50,6 +61,15 @@ any-nix-shell zsh --info-right | source /dev/stdin
 Alternatively the `any-nix-shell` plugin can be enabled system-wide.
 This enables it for every user.
 To do so, add the following to your configuration (*/etc/nixos/configuration.nix*).
+
+### `xonsh`
+
+```nix
+  programs.xonsh.enable = true;
+  programs.xonsh.config = ''
+    execx($(any-nix-shell --info-right))
+  '';
+```
 
 ### `fish`
 
