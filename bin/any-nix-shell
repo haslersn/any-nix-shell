@@ -12,7 +12,7 @@ end
 
 # Overwrite the nix command
 function nix
-    if test \$argv[1] = run || test \$argv[1] = develop
+    if test "\$argv[1]" = run -o "\$argv[1]" = develop
         $(which .any-nix-wrapper) fish \$argv
     else
         command nix \$argv
