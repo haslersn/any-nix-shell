@@ -48,9 +48,8 @@ fns () {
         fi
     done
 
-    # I'm not sure what, if anything, hits this branch. It appears to be using
-    # the environment variable `$name` here? `$name` doesn't appear to be
-    # mentioned anywhere else in the repo.
+    # `$name` is the name of the Nix shell:
+    #     mkShell { name = "example"; }
     if [[ -n $name ]] && [[ $name != shell ]]; then
         pkgs+=" "$name
     fi
