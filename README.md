@@ -43,7 +43,7 @@ Add the following to your `xonsh`
 (Create it if it doesn't exist.)
 
 ```xonsh
-execx($(any-nix-shell --info-right))
+execx($(any-nix-shell xonsh --info-right))
 ```
 
 ### `zsh`
@@ -78,7 +78,7 @@ To do so, add the following to your configuration (*/etc/nixos/configuration.nix
 {
   programs.xonsh.enable = true;
   programs.xonsh.config = ''
-    execx($(any-nix-shell --info-right))
+    execx($(any-nix-shell xonsh --info-right))
   '';
 }
 ```
