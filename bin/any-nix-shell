@@ -99,7 +99,7 @@ EOF
 # Print additional information inside a nix-shell environment
 precmd () {
     with_codes=\$($(which nix-shell-info))
-    without_codes=\$(printf "\$with_codes" | sed -r "s/\\\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
+    without_codes=\$(printf "\$with_codes" | $(which sed) -r "s/\\\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g")
     RPROMPT=%\${#without_codes}{\$with_codes%}
 }
 
@@ -112,7 +112,7 @@ EOF
 
 function error () {
     echo "echo ERROR: wrong usage"
-    echo "bash -c \"exit 2\""
+    echo "$(which bash) -c \"exit 2\""
     exit 1
 }
 
