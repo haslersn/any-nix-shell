@@ -12,15 +12,14 @@ Features:
 
 ## Installation
 
-any-nix-shell can currently be installed from the official `nixos-unstable` channel
-([Link 1](https://www.reddit.com/r/NixOS/comments/7p83y4/install_a_package_from_unstable_while_running/), [Link 2](https://stackoverflow.com/questions/41230430/how-do-i-upgrade-my-system-to-nixos-unstable)).
-If you don't know how to do that, you can alternatively execute
+any-nix-shell can be installed from stable nixpkgs.
+For instance,
 
 ```console
-$ nix-env -i any-nix-shell -f https://github.com/NixOS/nixpkgs/archive/master.tar.gz
+$ nix-env -i any-nix-shell
 ```
 
-which installs `any-nix-shell` into your user environment.
+installs `any-nix-shell` into your user environment.
 
 ## Enabling
 
