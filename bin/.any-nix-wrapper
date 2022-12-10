@@ -28,7 +28,12 @@ fns () {
                 pos=1
             fi
         else
-            pkgs+=" "$arg
+            arg="$(printf "$arg" | xargs)" # trims all words
+            truncated=$(printf "$arg" | head -n1 | cut -d' ' -f1)
+            pkgs+=" "$truncated
+            if [[ $truncated != $arg ]]; then
+                pkgs+=...
+            fi
         fi
     done
     if [[ -n $name ]] && [[ $name != shell ]]; then
