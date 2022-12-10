@@ -112,7 +112,7 @@ EOF
 
 function error () {
     echo "echo ERROR: wrong usage"
-    echo "bash -c \"\$(exit 1)\""
+    echo "bash -c \"exit 2\""
     exit 1
 }
 
