@@ -31,6 +31,6 @@ fns () {
         pkgs+=" "$name
     fi
     env ANY_NIX_SHELL_PKGS="$pkgs" nix-shell "$@" \
-        --command "export SHELL=\"$(which $which_shell)\"; $which_shell"
+        --command "env SHELL=\"$(which $which_shell)\" \"$which_shell\""
 }
 fns "$@"
