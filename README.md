@@ -1,10 +1,10 @@
 # any-nix-shell
 
-`fish` and `zsh` support for the `nix run` and `nix-shell` environments of the Nix package manager.
+`fish` and `zsh` support for the `nix develop` and `nix-shell` environments of the Nix package manager.
 
 Features:
 
-* When entering a `nix run` or `nix-shell` environment, the shell stays the same.
+* When entering a `nix develop` or `nix-shell` environment, the shell stays the same.
 * Inside those environments, your prompt prints the loaded packages to the right.
 * Alternatively, print that information by executing: `nix-shell-info`
 * `nix-shell --command` or the like still execute inside `bash`, such that scripts don't break.
