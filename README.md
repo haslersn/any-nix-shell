@@ -67,7 +67,7 @@ To do so, add the following to your configuration (*/etc/nixos/configuration.nix
 {
   programs.fish.enable = true;
   programs.fish.promptInit = ''
-    any-nix-shell fish --info-right | source
+    ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
   '';
 }
 ```
@@ -78,7 +78,7 @@ To do so, add the following to your configuration (*/etc/nixos/configuration.nix
 {
   programs.xonsh.enable = true;
   programs.xonsh.config = ''
-    execx($(any-nix-shell xonsh --info-right))
+    execx($(${pkgs.any-nix-shell}/bin/any-nix-shell xonsh --info-right))
   '';
 }
 ```
@@ -89,7 +89,7 @@ To do so, add the following to your configuration (*/etc/nixos/configuration.nix
 {
   programs.zsh.enable = true;
   programs.zsh.promptInit = ''
-    any-nix-shell zsh --info-right | source /dev/stdin
+  ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
   '';
 }
 ```
