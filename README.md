@@ -89,7 +89,7 @@ To do so, add the following to your configuration (*/etc/nixos/configuration.nix
 {
   programs.zsh.enable = true;
   programs.zsh.promptInit = ''
-  ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
+    ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
   '';
 }
 ```
