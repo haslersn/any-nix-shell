@@ -9,7 +9,7 @@ fns () {
     pos=0
 
     # `nix run` only launched a shell from Nix 2.0.* to 2.3.*
-    if nix --version | grep -vq ' 2\.[0-3][^0-9]'; then
+    if [[ "$subcommand" == "run" ]] && nix --version | grep -vq ' 2\.[0-3][^0-9]'; then
         exec nix "$subcommand" "$@"
     fi
 
