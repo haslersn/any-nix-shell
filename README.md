@@ -66,7 +66,7 @@ To do so, add the following to your configuration (*/etc/nixos/configuration.nix
 ```nix
 {
   programs.fish.enable = true;
-  programs.fish.promptInit = ''
+  programs.fish.interactiveShellInit = ''
     ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
   '';
 }
