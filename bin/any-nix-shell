@@ -111,6 +111,44 @@ EOF
     done
 }
 
+function init_elvish() {
+                output+=$(cat <<EOF
+# If you see this output, you probably forgot to 'eval' it:
+# eval (any-nix-shell $@ | slurp)
+
+# Overwrite the nix-shell command
+edit:add-var nix-shell~ [@_args]{
+    $(which .any-nix-shell-wrapper) elvish \$@_args
+}
+
+# Overwrite the nix command
+edit:add-var nix~ [cmd @_args]{
+    if (==s \$cmd shell) {
+        $(which .any-nix-wrapper) elvish \$@_args
+    } else {
+        command nix \$cmd \$@_args
+    }
+}
+EOF
+                )
+    for arg in "$@"; do
+        case "$arg" in
+            --info-right)
+                output+=$(cat <<EOF
+
+
+# Print additional information inside a nix-shell environment
+edit:rprompt = {
+    print ($(which nix-shell-info) | slurp)" "
+}
+
+EOF
+                );;
+            *) error;;
+        esac
+    done
+}
+
 function error () {
     echo "echo ERROR: wrong usage"
     echo "$(which bash) -c \"exit 2\""
@@ -125,6 +163,7 @@ case "$1" in
     xonsh) init_xonsh "${@:2}";;
     fish) init_fish "${@:2}";;
     zsh) init_zsh "${@:2}";;
+    elvish) init_elvish "${@:2}";;
     *) error;;
 esac
 
