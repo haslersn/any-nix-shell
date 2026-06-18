@@ -39,6 +39,7 @@ fns () {
     if [[ -n $name ]] && [[ $name != shell ]]; then
         pkgs+=" "$name
     fi
-    exec env ANY_NIX_SHELL_PKGS="$pkgs" IN_NIX_RUN=1 nix "$subcommand" "$@" --command "$which_shell"
+    shell_path="$(which "$which_shell")"
+    exec env ANY_NIX_SHELL_PKGS="$pkgs" IN_NIX_RUN=1 nix "$subcommand" "$@" --command env SHELL="$shell_path" "$shell_path"
 }
 fns "$@"
