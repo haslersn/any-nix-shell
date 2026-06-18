@@ -10,7 +10,7 @@ aliases["nix-shell"] = "@(\$(which .any-nix-shell-wrapper)) xonsh @(\$args)"
 
 # Overwrite the nix command
 def __nix(args):
-    if args and ( args[0] == "run" or args[0] == "develop" ):
+    if args and ( args[0] == "run" or args[0] == "develop" or args[0] == "shell" ):
         @(\$(which .any-nix-wrapper)) xonsh @(args)
     else:
         @(\$(which -s nix)) @(args)
@@ -46,6 +46,7 @@ end
 function nix
     if test \$argv[1] = run
     or test \$argv[1] = develop
+    or test \$argv[1] = shell
         $(which .any-nix-wrapper) fish \$argv
     else
         command nix \$argv
@@ -83,7 +84,7 @@ function nix-shell () {
 
 # Overwrite the nix command
 function nix () {
-    if [[ "\$1" == "run" ]] || [[ "\$1" == "develop" ]]; then
+    if [[ "\$1" == "run" ]] || [[ "\$1" == "develop" ]] || [[ "\$1" == "shell" ]]; then
         $(which .any-nix-wrapper) zsh "\$@"
     else
         command nix "\$@"
