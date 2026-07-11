@@ -40,6 +40,6 @@ fns () {
         pkgs+=" "$name
     fi
     shell_path="$(which "$which_shell")"
-    exec env ANY_NIX_SHELL_PKGS="$pkgs" IN_NIX_RUN=1 nix "$subcommand" "$@" --command env SHELL="$shell_path" "$shell_path"
+    exec env ANY_NIX_SHELL_PKGS="$pkgs" IN_NIX_RUN=1 nix "$subcommand" "$@" --command env SHELL="$shell_path" IN_NIX_RUN=1 ANY_NIX_SHELL_PKGS="$pkgs" "$shell_path"
 }
 fns "$@"
